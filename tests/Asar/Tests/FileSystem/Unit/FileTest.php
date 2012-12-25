@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Asar Web Framework
+ * This file is part of the Asar FileSystem
  *
  * (c) Wayne Duran <asartalo@projectweb.ph>
  *

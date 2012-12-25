@@ -1,0 +1,28 @@
+{
+    "name": "asar/asar-fs",
+    "type": "library",
+    "description": "A collection of tools to handle filesystem-related operations.",
+    "minimum-stability": "alpha",
+    "license": "MIT",
+    "require": {
+         "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "asar/asar-test-helper": "dev-master"
+    },
+    "authors" : [
+        {
+            "name": "Wayne Duran",
+            "email": "asartalo@projectweb.ph",
+            "role": "Developer",
+            "homepage": "http://www.asartalo.org"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+          "Asar\\Tests\\FileSystem": "tests",
+          "Asar\\FileSystem": "src"
+        }
+    }
+}

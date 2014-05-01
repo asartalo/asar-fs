@@ -9,7 +9,7 @@
 # run watchr autounit
 
 def phpunit(param)
- system("phpunit --stop-on-failure #{param}")
+ system("./vendor/bin/phpunit --stop-on-failure #{param}")
 end
 
 def clearConsole

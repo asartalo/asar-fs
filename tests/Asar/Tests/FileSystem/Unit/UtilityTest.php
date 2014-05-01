@@ -39,6 +39,31 @@ class UtilityTest extends TestCase
         $this->clearTestTempDirectory();
     }
 
+
+    private function prepareFiles()
+    {
+        $files = call_user_func_array('array_merge', func_get_args());
+        foreach ($files as $file) {
+            $this->tfm->newFile($file);
+        }
+    }
+
+    private function checkCorrectFiles($correctFiles, $otherFiles, $result)
+    {
+        foreach ($correctFiles as $file) {
+            $this->assertContains(
+                $this->tfm->getTempDirectory() . DIRECTORY_SEPARATOR
+                . $this->getOsPath($file), $result
+            );
+        }
+        foreach ($otherFiles as $file) {
+            $this->assertNotContains(
+                $this->tfm->getTempDirectory() . DIRECTORY_SEPARATOR
+                . $this->getOsPath($file), $result
+            );
+        }
+    }
+
     /**
      * Finds files that starts with specified prefix
      */
@@ -49,21 +74,36 @@ class UtilityTest extends TestCase
             'foo/preTwo.txt',
             'foo/preThree.txt'
         );
-        foreach ($correctFiles as $file) {
-            $this->tfm->newFile($file);
-        }
-        // other files...
-        $this->tfm->newFile('foo/Four.txt');
-        $this->tfm->newFile('foo.Five.txt');
+        $otherFiles = array('foo/Four.txt','foo.Five.txt');
+        $this->prepareFiles($correctFiles, $otherFiles);
+
         $result = $this->utility->findFilesThatStartWith(
             $this->tfm->getTempDirectory() . $this->getOsPath('/foo/pre')
         );
-        foreach ($correctFiles as $file) {
-            $this->assertContains(
-                $this->tfm->getTempDirectory() . DIRECTORY_SEPARATOR
-                . $this->getOsPath($file), $result
-            );
-        }
+        $this->checkCorrectFiles($correctFiles, $otherFiles, $result);
     }
+
+    /**
+     * Find files matching a pattern
+     */
+    public function testFindsFilesMatchingPattern()
+    {
+        $correctFiles = array(
+            'foo/oneFoo.txt',
+            'foo/twoFoo.txt',
+            'foo/threeBar.txt'
+        );
+        $otherFiles = array(
+            'foo/oneBaz.txt',
+            'foo/threeBar.oz',
+            'foo/baz/threeBar.txt'
+        );
+        $this->prepareFiles($correctFiles, $otherFiles);
+        $result = $this->utility->findFilesThatMatch(
+            $this->tfm->getTempDirectory() . '/foo/*{Foo,Bar}.txt'
+        );
+        $this->checkCorrectFiles($correctFiles, $otherFiles, $result);
+    }
+
 
 }

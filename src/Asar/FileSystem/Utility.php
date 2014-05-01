@@ -39,4 +39,16 @@ class Utility
         return $foundFiles;
     }
 
+    /**
+     * Finds files that match a glob pattern
+     *
+     * @param string $pattern a glob pattern (see php's native glob()) function
+     *
+     * @return array a collection of files that match the pattern
+     */
+    public function findFilesThatMatch($pattern)
+    {
+        return glob($pattern, GLOB_BRACE);
+    }
+
 }
